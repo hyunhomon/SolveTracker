@@ -2,6 +2,9 @@ package com.example.solvetracker
 
 class Router {
     companion object {
-        val streakScreen = "streak"
+        val homeScreen = "home"
+        val analysisScreen = "analysis"
+        val profileScreen = "profile"
+        val setUserHandleScreen = "setUserHandle"
     }
 }

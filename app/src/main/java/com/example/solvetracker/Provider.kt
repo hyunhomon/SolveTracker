@@ -1,28 +1,28 @@
 package com.example.solvetracker
 
 import android.app.Application
+import android.content.SharedPreferences
 
 class Provider: Application() {
-    private val pref = getSharedPreferences("sp1", MODE_PRIVATE)
-    private val editor = pref.edit()
-    private val isFirstKey = "isFirst"
+    private lateinit var pref: SharedPreferences
+    private lateinit var editor: SharedPreferences.Editor
     private val userHandleKey = "userHandle"
 
-    var isFirst = true
-    var userHandle = ""
-
-    fun setIsFirst(value: Boolean) {
-        editor.putBoolean(isFirstKey, value)
-        editor.commit()
+    companion object {
+        var userHandle = ""
     }
+
     fun setUserHandle(value: String) {
         editor.putString(userHandleKey, value)
-        editor.commit()
+        editor.apply()
+        userHandle = value
     }
 
     override fun onCreate() {
         super.onCreate()
-        isFirst = pref.getBoolean(isFirstKey, true)
+
+        pref = getSharedPreferences("sp1", MODE_PRIVATE)
+        editor = pref.edit()
         userHandle = pref.getString(userHandleKey, "") ?: ""
     }
 }

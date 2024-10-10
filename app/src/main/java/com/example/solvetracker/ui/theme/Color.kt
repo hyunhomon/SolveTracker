@@ -2,10 +2,10 @@ package com.example.solvetracker.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val Purple80 = Color(0xFFD0BCFF)
-val PurpleGrey80 = Color(0xFFCCC2DC)
-val Pink80 = Color(0xFFEFB8C8)
-
-val Purple40 = Color(0xFF6650a4)
-val PurpleGrey40 = Color(0xFF625b71)
-val Pink40 = Color(0xFF7D5260)
+val Gray5 = Color(0xFF1D1D1D)
+val Gray4 = Color(0xFF525F7A)
+val Gray3 = Color(0xFFA9B3C6)
+val Gray2 = Color(0xFFDADEE7)
+val Gray1 = Color(0xFFF3F4F7)
+val White = Color(0xFFFFFFFF)
+val Primary = Color(0xFF3F7BF3)
