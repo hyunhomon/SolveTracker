@@ -1,9 +1,9 @@
-package com.example.solvetracker.api.service
+package com.example.solvetracker.data.api.service
 
-import com.example.solvetracker.api.model.ProblemList
-import com.example.solvetracker.api.model.ProblemTag
-import com.example.solvetracker.api.model.ProblemTagList
-import retrofit2.Call
+import com.example.solvetracker.data.model.ProblemList
+import com.example.solvetracker.data.model.ProblemTag
+import com.example.solvetracker.data.model.ProblemTagList
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -14,21 +14,21 @@ interface ProblemService {
         @Query("direction") direction: String = "desc",
         @Query("query") query: String,
         @Query("sort") sort: String = "level"
-    ): Call<ProblemList>
+    ): Response<ProblemList>
 
     @GET("tag/show")
     suspend fun getTag(
         @Query("key") key: String
-    ): Call<ProblemTag>
+    ): Response<ProblemTag>
 
     @GET("tag/list")
     suspend fun getTagListAll(
         @Query("page") page: Int
-    ): Call<ProblemTagList>
+    ): Response<ProblemTagList>
 
     @GET("search/tag")
     suspend fun getTagListByName(
         @Query("page") page: Int,
         @Query("query") query: String
-    ): Call<ProblemTagList>
+    ): Response<ProblemTagList>
 }

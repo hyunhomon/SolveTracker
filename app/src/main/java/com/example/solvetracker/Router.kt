@@ -1,10 +1,8 @@
 package com.example.solvetracker
 
-class Router {
-    companion object {
-        val homeScreen = "home"
-        val analysisScreen = "analysis"
-        val profileScreen = "profile"
-        val setUserHandleScreen = "setUserHandle"
-    }
+object Router {
+    const val homeScreen = "home"
+    const val analysisScreen = "analysis"
+    const val profileScreen = "profile"
+    const val setUserHandleScreen = "set_user_handle"
 }

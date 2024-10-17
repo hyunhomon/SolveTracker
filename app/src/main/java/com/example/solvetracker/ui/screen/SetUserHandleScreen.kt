@@ -1,29 +1,55 @@
 package com.example.solvetracker.ui.screen
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.navigation.NavHostController
-import com.example.solvetracker.Provider
+import androidx.navigation.NavController
+import com.example.solvetracker.Router
+import com.example.solvetracker.data.PreferencesManager
+import com.example.solvetracker.ui.component.SearchBar
+import com.example.solvetracker.ui.theme.White
+import com.example.solvetracker.ui.viewmodel.SearchUserViewModel
 
 @Composable
-fun SetUserHandleScreen(navController: NavHostController) {
-    val provider = LocalContext.current.applicationContext as Provider
+fun SetUserHandleScreen(
+    preferencesManager: PreferencesManager,
+    navController: NavController,
+    searchUserViewModel: SearchUserViewModel
+) {
+    val searchQuery = searchUserViewModel.searchQuery.collectAsState().value
+    val searchResults = searchUserViewModel.searchResults.collectAsState().value
+    val isLoading = searchUserViewModel.isLoading.collectAsState().value
 
-    Box(
+    Column (
         modifier = Modifier
             .fillMaxSize()
+            .background(White)
     ) {
-        Button(
-            onClick = {
-                provider.setUserHandle("hyunhomon")
-            }
+        SearchBar(
+            navController = navController,
+            backRoute = if (preferencesManager.getUserHandle().isEmpty()) ""
+            else Router.profileScreen,
+            hint = "사용자 핸들을 입력해주세요",
+            value = searchQuery,
+            onValueChange = { searchUserViewModel.updateSearchQuery(it) }
+        )
+        if (isLoading) {
+            CircularProgressIndicator()
+        }
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
         ) {
-            Text("유저 핸들 설정")
+            items(searchResults) { user ->
+                Text(text = user.handle)
+            }
         }
     }
 }

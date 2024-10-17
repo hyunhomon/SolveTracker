@@ -1,14 +1,14 @@
-package com.example.solvetracker.api.service
+package com.example.solvetracker.data.api.service
 
-import com.example.solvetracker.api.model.ProblemSolvedClass
-import com.example.solvetracker.api.model.ProblemSolvedTagList
-import com.example.solvetracker.api.model.ProblemSolvedTier
-import com.example.solvetracker.api.model.UserAdditionalInfo
-import com.example.solvetracker.api.model.UserBackground
-import com.example.solvetracker.api.model.UserHistory
-import com.example.solvetracker.api.model.UserInfo
-import com.example.solvetracker.api.model.UserList
-import retrofit2.Call
+import com.example.solvetracker.data.model.ProblemSolvedClass
+import com.example.solvetracker.data.model.ProblemSolvedTagList
+import com.example.solvetracker.data.model.ProblemSolvedTier
+import com.example.solvetracker.data.model.UserAdditionalInfo
+import com.example.solvetracker.data.model.UserBackground
+import com.example.solvetracker.data.model.UserHistory
+import com.example.solvetracker.data.model.UserInfo
+import com.example.solvetracker.data.model.UserList
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,52 +16,52 @@ interface UserService {
     @GET("user/show")
     suspend fun getUserInfo(
         @Query("handle") handle: String
-    ): Call<UserInfo>
+    ): Response<UserInfo>
 
     @GET("user/additional_info")
     suspend fun getUserAdditionalInfo(
         @Query("handle") handle: String
-    ): Call<UserAdditionalInfo>
+    ): Response<UserAdditionalInfo>
 
     @GET("background/show")
     suspend fun getUserBackground(
         @Query("backgroundId") backgroundId: String
-    ): Call<UserBackground>
+    ): Response<UserBackground>
 
     @GET("user/history")
     suspend fun getUserHistory(
         @Query("handle") handle: String,
         @Query("topic") topic: String = "solvedCount"
-    ): Call<List<UserHistory>>
+    ): Response<List<UserHistory>>
 
     @GET("user/problem_stats")
     suspend fun getUserSolvedTier(
         @Query("handle") handle: String
-    ): Call<List<ProblemSolvedTier>>
+    ): Response<List<ProblemSolvedTier>>
 
     @GET("user/problem_tag_stats")
     suspend fun getUserSolvedTag(
         @Query("handle") handle: String
-    ): Call<ProblemSolvedTagList>
+    ): Response<ProblemSolvedTagList>
 
     @GET("user/class_stats")
     suspend fun getUserSolvedClass(
         @Query("handle") handle: String
-    ): Call<List<ProblemSolvedClass>>
+    ): Response<List<ProblemSolvedClass>>
 
     @GET("search/user")
     suspend fun getUserListByName(
         @Query("page") page: Int,
         @Query("query") query: String
-    ): Call<UserList>
+    ): Response<UserList>
 
     @GET("ranking/tier")
     suspend fun getUserListByRanking(
         @Query("page") page: Int
-    ): Call<UserList>
+    ): Response<UserList>
 
     @GET("ranking/streak")
     suspend fun getUserListByStreak(
         @Query("page") page: Int
-    ): Call<UserList>
+    ): Response<UserList>
 }

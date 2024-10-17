@@ -1,4 +1,4 @@
-package com.example.solvetracker.api.model
+package com.example.solvetracker.data.model
 
 import com.google.gson.annotations.SerializedName
 

@@ -15,7 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.solvetracker.Router
 import com.example.solvetracker.ui.theme.AnalysisActivate
@@ -51,7 +51,7 @@ fun BottomNavigationItem(item: ItemModel, isSelected: Boolean) {
 }
 
 @Composable
-fun BottomNavigationBar(navController: NavHostController) {
+fun BottomNavigationBar(navController: NavController) {
     val currentRoute = navController.currentBackStackEntryAsState().value?.destination?.route
     val navigationItems = listOf(
         ItemModel(Router.homeScreen, HomeActivate, HomeInactivate, "홈"),
