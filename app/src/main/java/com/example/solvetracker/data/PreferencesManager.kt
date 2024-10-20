@@ -9,6 +9,7 @@ class PreferencesManager(context: Context) {
 
     companion object {
         private const val PREF_NAME = "preferences"
+        private const val KEY_THEME = "theme"
         private const val KEY_USER_HANDLE = "user_handle"
     }
 
@@ -17,5 +18,12 @@ class PreferencesManager(context: Context) {
     }
     fun setUserHandle(userHandle: String) {
         sharedPreferences.edit().putString(KEY_USER_HANDLE, userHandle).apply()
+    }
+
+    fun getTheme(): Int {
+        return sharedPreferences.getInt(KEY_THEME, 0)
+    }
+    fun setTheme(theme: Int) {
+        sharedPreferences.edit().putInt(KEY_THEME, theme).apply()
     }
 }

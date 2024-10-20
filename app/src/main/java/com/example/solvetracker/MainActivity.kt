@@ -3,6 +3,7 @@ package com.example.solvetracker
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.navigationBarsPadding
@@ -10,7 +11,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -27,23 +27,26 @@ import com.example.solvetracker.ui.theme.SolveTrackerTheme
 import com.example.solvetracker.ui.viewmodel.SearchUserViewModel
 
 class MainActivity : ComponentActivity() {
-    private val windowController by lazy {
-        WindowInsetsControllerCompat(window, window.decorView)
-    }
     private val preferencesManager: PreferencesManager by lazy {
         PreferencesManager(this)
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setSystemWindow()
 
         setContent {
-            SolveTrackerTheme {
-                val navHostController = rememberNavController()
-                val visibleScreens = setOf(Router.homeScreen, Router.analysisScreen, Router.profileScreen)
-                val currentRoute = navHostController.currentBackStackEntryAsState().value?.destination?.route
+            val navHostController = rememberNavController()
+            val visibleScreens = setOf(Router.HomeScreen, Router.AnalysisScreen, Router.ProfileScreen)
+            val currentRoute = navHostController.currentBackStackEntryAsState().value?.destination?.route
 
+            SolveTrackerTheme(
+                darkTheme = when(preferencesManager.getTheme()) {
+                    1 -> false
+                    2 -> true
+                    else -> isSystemInDarkTheme()
+                },
+                bottomNavigation = currentRoute in visibleScreens
+            ) {
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
                     bottomBar = {
@@ -58,14 +61,6 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    private fun setSystemWindow() {
-        windowController.isAppearanceLightStatusBars = true
-        windowController.isAppearanceLightNavigationBars = true
-
-        window.statusBarColor = getColor(R.color.status_bar)
-        window.navigationBarColor = getColor(R.color.navigation_bar)
-    }
 }
 
 @Composable
@@ -78,16 +73,16 @@ private fun Navigation(
 
     NavHost(
         navController = navHostController,
-        startDestination = if (preferencesManager.getUserHandle().isEmpty()) Router.setUserHandleScreen
-        else Router.homeScreen,
+        startDestination = if (preferencesManager.getUserHandle().isEmpty()) Router.SetUserHandleScreen
+        else Router.HomeScreen,
         modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
-            .navigationBarsPadding(),
+            .navigationBarsPadding()
     ) {
-        composable(Router.homeScreen) { HomeScreen(navHostController) }
-        composable(Router.analysisScreen) { AnalysisScreen(navHostController) }
-        composable(Router.profileScreen) { ProfileScreen(navHostController) }
-        composable(Router.setUserHandleScreen) { SetUserHandleScreen(preferencesManager, navHostController, searchUserViewModel) }
+        composable(Router.HomeScreen) { HomeScreen(navHostController) }
+        composable(Router.AnalysisScreen) { AnalysisScreen(navHostController) }
+        composable(Router.ProfileScreen) { ProfileScreen(navHostController) }
+        composable(Router.SetUserHandleScreen) { SetUserHandleScreen(navHostController, preferencesManager, searchUserViewModel) }
     }
 }

@@ -4,6 +4,8 @@ import com.example.solvetracker.data.api.RetrofitInstance
 import com.example.solvetracker.data.api.service.UserService
 import com.example.solvetracker.data.model.UserList
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.emptyFlow
 import kotlinx.coroutines.flow.flow
 import retrofit2.Response
 
@@ -15,5 +17,5 @@ class UserRepository {
     fun searchUsers(query: String): Flow<Response<UserList>> = flow {
         val response = userService.getUserListByName(1, query)
         emit(response)
-    }
+    }.catch { emptyFlow<UserList>() }
 }

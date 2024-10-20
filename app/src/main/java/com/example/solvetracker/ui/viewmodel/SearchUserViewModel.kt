@@ -23,7 +23,7 @@ class SearchUserViewModel: ViewModel() {
     init {
         viewModelScope.launch {
             _searchQuery
-                .debounce(300)
+                .debounce(200)
                 .distinctUntilChanged()
                 .flatMapLatest { query ->
                     if (query.isBlank()) {
@@ -35,7 +35,7 @@ class SearchUserViewModel: ViewModel() {
                     }
                 }
                 .collect { response ->
-                    searchResults.value = if (response.isSuccessful) response.body()?.items ?: emptyList()
+                    searchResults.value = if (response.isSuccessful) response.body()?.items?.take(8) ?: emptyList()
                     else emptyList()
 
                     isLoading.value = false
